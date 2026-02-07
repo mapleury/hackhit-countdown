@@ -1,144 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hackathon Live Countdown</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'DM Sans', sans-serif;
-            color: white;
-            background-color: #000;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hackathon Live Countdown</title>
 
-        .background-container {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('assets/hackhit bg.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;800&display=swap" rel="stylesheet">
 
-        /* Start Button */
-        .start-btn {
-            background: #ffffff;
-            color: #000;
-            border: none;
-            padding: 20px 40px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 3rem;
-            font-weight: 800;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+<style>
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'DM Sans', sans-serif;
+    background: black;
+    color: white;
+    overflow: hidden;
+}
 
-        .start-btn:hover {
-            background: #00f2ff;
-            transform: scale(1.1);
-        }
+.background-container {
+    background-image:
+        linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+        url('assets/hackhit bg.png');
+    background-size: cover;
+    background-position: center;
 
-        /* Hidden by default */
-        #competition-ui {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-        }
+    height: 100vh;
 
-        .label {
-            font-size: 2rem;
-            font-weight: 400;
-            margin-bottom: 0.5rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-        .countdown-text {
-            font-size: 10rem;
-            font-weight: 800;
-            margin: 10px 0;
-            line-height: 1;
-        }
+.start-btn {
+    background: white;
+    color: black;
+    border: none;
+    padding: 25px 60px;
+    font-size: 2.5rem;
+    font-weight: 800;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: .3s;
+    text-transform: uppercase;
+    box-shadow: 0 0 30px rgba(0,242,255,0.4);
+}
 
-        .submit-link {
-            margin-top: 30px;
-            font-size: 2.4rem;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px 30px;
-            border-radius: 50px;
-            backdrop-filter: blur(5px);
-        }
+.start-btn:hover {
+    background: #00f2ff;
+    transform: scale(1.05);
+}
 
-        .submit-link b {
-            font-weight: 800;
-            color: #00f2ff;
-            text-decoration: underline;
-        }
+#competition-ui {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
 
-        @media (max-width: 768px) {
-            .countdown-text { font-size: 3.5rem; }
-        }
-    </style>
+.label {
+    font-size: 2rem;
+    letter-spacing: 5px;
+    color: #00f2ff;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.countdown-text {
+    font-size: 13rem;
+    font-weight: 800;
+    text-shadow: 0 0 50px rgba(0,242,255,0.5);
+}
+
+.submit-link {
+    margin-top: 50px;
+    font-size: 2rem;
+    padding: 20px 50px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+}
+
+.submit-link b {
+    color: #00f2ff;
+}
+
+#intro-overlay {
+    display: none;
+    font-size: 20rem;
+    font-weight: 800;
+    text-shadow: 0 0 100px rgba(255,255,255,0.6);
+}
+
+@media (max-width:768px){
+    .countdown-text { font-size: 5rem; }
+    #intro-overlay { font-size: 10rem; }
+}
+</style>
 </head>
+
 <body>
 
-    <div class="background-container">
-        <button id="trigger" class="start-btn" onclick="startComp()">Start the Competition!</button>
-        
-        <div id="competition-ui">
-            <div class="label">Countdown</div>
-            <div class="countdown-text" id="timer">03h 20m 00s</div>
-            
-            <div class="submit-link">
-                Submit project here : <b>blabla link</b>
-            </div>
-        </div>
+<div class="background-container">
+
+<button id="trigger" class="start-btn">Start Competition</button>
+
+<div id="intro-overlay"></div>
+
+<div id="competition-ui">
+    <div class="label" id="status-label">Time Remaining</div>
+    <div class="countdown-text" id="timer">03h 20m 00s</div>
+
+    <div class="submit-link">
+        Submit project: <b>s.id/hackhit-submit</b>
     </div>
+</div>
 
-    <script>
-        function startComp() {
-            document.getElementById('trigger').style.display = 'none';
-            document.getElementById('competition-ui').style.display = 'flex';
+</div>
 
-            const duration = (3 * 60 * 60 * 1000) + (20 * 60 * 1000);
-            const endTime = new Date().getTime() + duration;
+<script>
+/* ---------------- AUDIO ---------------- */
 
-            const countdownScript = setInterval(function() {
-                const now = new Date().getTime();
-                const distance = endTime - now;
+// stable google CDN sounds
+const beep = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+const goSound = new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
+const buzzer = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock_ringing_maybe.ogg");
 
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+// preload audio (reduces delay)
+[beep, goSound, buzzer].forEach(sound => sound.load());
 
-                document.getElementById("timer").innerHTML = 
-                    (hours < 10 ? "0" + hours : hours) + "h " + 
-                    (minutes < 10 ? "0" + minutes : minutes) + "m " + 
-                    (seconds < 10 ? "0" + seconds : seconds) + "s";
 
-                if (distance < 0) {
-                    clearInterval(countdownScript);
-                    document.getElementById("timer").innerHTML = "TIME'S UP!";
-                    document.getElementById("timer").style.color = "#00f2ff";
-                }
-            }, 1000);
+/* ---------------- START BUTTON ---------------- */
+
+document.getElementById("trigger").addEventListener("click", startIntro);
+
+
+/* ---------------- INTRO COUNTDOWN ---------------- */
+
+function startIntro(){
+
+    document.getElementById("trigger").style.display = "none";
+
+    const intro = document.getElementById("intro-overlay");
+    intro.style.display = "block";
+
+    let count = 3;
+
+    const interval = setInterval(() => {
+
+        intro.innerHTML = count;
+        beep.currentTime = 0;
+        beep.play();
+
+        count--;
+
+        if(count === 0){
+
+            clearInterval(interval);
+
+            setTimeout(() => {
+                intro.innerHTML = "GO";
+                goSound.play();
+
+                setTimeout(() => {
+                    intro.style.display = "none";
+                    startCompetition();
+                }, 800);
+
+            }, 500);
         }
-    </script>
 
+    },1000);
+}
+
+
+/* ---------------- MAIN COMPETITION TIMER ---------------- */
+
+function startCompetition(){
+
+    document.getElementById("competition-ui").style.display = "flex";
+
+    const duration =
+        (3 * 60 * 60 * 1000) +
+        (20 * 60 * 1000);
+
+    const endTime = Date.now() + duration;
+
+    const timerInterval = setInterval(() => {
+
+        const distance = endTime - Date.now();
+
+        if(distance <= 0){
+
+            clearInterval(timerInterval);
+
+            buzzer.play();
+
+            document.getElementById("timer").innerHTML = "TIME'S UP!";
+            document.getElementById("timer").style.color = "#ff3e3e";
+            document.getElementById("status-label").innerHTML = "Hacking Finished";
+
+            return;
+        }
+
+        const hours = Math.floor(distance / (1000*60*60));
+        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+        const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+        document.getElementById("timer").innerHTML =
+            String(hours).padStart(2,"0") + "h " +
+            String(minutes).padStart(2,"0") + "m " +
+            String(seconds).padStart(2,"0") + "s";
+
+    },1000);
+}
+
+</script>
 </body>
 </html>
